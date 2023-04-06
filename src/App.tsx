@@ -1,35 +1,59 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState, useRef, FC } from 'react';
+import reactLogo from './assets/react.svg';
+import viteLogo from '/vite.svg';
+import Field from './components/Field';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [originalText, setOriginalText] = useState('');
+  const [editedText, setEditedText] = useState('');
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+    const tempOriginal = originalText.split(' ')
+    const tempEdited = editedText.split(' ')
+    let i = 0;
+    let indexes = [];
+    while (i< tempOriginal.length || i< tempEdited.length) {
+      if (tempOriginal[i] !== tempEdited[i]) {
+        indexes.push(i);
+        console.log(i);
+        console.log(tempEdited[i]);
+        break;
+      }
+      i++;
+    }
+    console.log(indexes);
+    console.log(tempOriginal);
+    // console.log(tempEdited);
+  };
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <form onSubmit={onSubmit} className='flex h-screen justify-around'>
+      <div className='flex-col h-1/2 w-full  text-center px-5'>
+        <label htmlFor='original' className='py-15'>
+          Enter original text
+        </label>
+        <textarea
+          name={'original'}
+          className='w-full h-full  resize-none'
+          value={originalText}
+          onChange={(e) => setOriginalText(e.target.value)}
+        ></textarea>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+      <div className='flex-col h-1/2 w-full  text-center  px-5'>
+        <label htmlFor='original' className=''>
+          Enter changed text
+        </label>
+        <textarea
+          name={'edited'}
+          className='w-full h-full  resize-none'
+          value={editedText}
+          onChange={(e) => setEditedText(e.target.value)}
+        ></textarea>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
-  )
+      <button type='submit'>submit</button>
+    </form>
+  );
 }
 
-export default App
+export default App;
