@@ -3,9 +3,10 @@ import React, { useState } from 'react';
 interface DiffProps {
   leftText: string;
   rightText: string;
+  numberRows(text:string): string
 }
 
-const Diff: React.FC<DiffProps> = ({ leftText, rightText }) => {
+const Diff: React.FC<DiffProps> = ({ leftText, rightText,numberRows }) => {
   const [leftLines, setLeftLines] = useState<string[]>([]);
   const [rightLines, setRightLines] = useState<string[]>([]);
 
@@ -19,22 +20,26 @@ const Diff: React.FC<DiffProps> = ({ leftText, rightText }) => {
         if (line1 !== line2) {
           res.push(
             <span key={i} style={{ backgroundColor: 'red' }}>
-              {`${line1}\n`}
+             {i}. {`${line1}\n`}
             </span>
           );
         } else {
-          res.push(<span key={i}> {`${line1}\n`}</span>);
+          res.push(
+            <span key={i}>
+              {i}. {`${line1}\n`}
+            </span>
+          );
         }
       } else if (lines1.length > i) {
         res.push(
           <span key={i} style={{ backgroundColor: 'red' }}>
-            {`${line1}\n`}
+            {i}. {`${line1}\n`}
           </span>
         );
       } else {
         res.push(
           <span key={i} style={{ backgroundColor: 'green' }}>
-            {`${line2}\n`}
+            {i}. {`${line2}\n`}
           </span>
         );
       }
@@ -52,10 +57,10 @@ const Diff: React.FC<DiffProps> = ({ leftText, rightText }) => {
 
   return (
     <div className='flex flex-col mx-5'>
-      <div>
-        <button onClick={handleCompare}>Compare</button>
+      <div className='text-center'>
+        <button className='bg-white border-solid border-[1.8px] border-gray-200 rounded-md px-5 py-1 hover:bg-gray-200' onClick={handleCompare}>Compare</button>
       </div>
-      <div className='flex flex-col text-left'>{diff(leftLines, rightLines)}</div>
+      <div className='flex flex-col text-left'>{(diff(leftLines, rightLines))}</div>
     </div>
   );
 };
