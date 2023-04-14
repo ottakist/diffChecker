@@ -31,7 +31,7 @@ const Textarea: React.FC<Props> = ({
           setText(e.target.value);
           e.target.style.height = 'auto';
           e.target.style.height = e.target.scrollHeight + 'px';
-          
+
           if (e.target.scrollHeight > 416) {
             show.current = false;
           }

@@ -4,12 +4,9 @@
 span {
   min-height: 26px;
 }
-/* #line-numbers pre {
-  counter-increment: linenumber;
-} */
+
 #line-numbers pre::before {
   counter-increment: linenumber;
-  /* content: counter(linenumber); */
   display: block;
   color: #506882;
 }
