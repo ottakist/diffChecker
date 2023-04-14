@@ -3,10 +3,10 @@ import React, { useState } from 'react';
 interface DiffProps {
   leftText: string;
   rightText: string;
-  numberRows(text:string): string
+  numberRows(text: string): JSX.Element[];
 }
 
-const Diff: React.FC<DiffProps> = ({ leftText, rightText,numberRows }) => {
+const Diff: React.FC<DiffProps> = ({ leftText, rightText, numberRows }) => {
   const [leftLines, setLeftLines] = useState<string[]>([]);
   const [rightLines, setRightLines] = useState<string[]>([]);
 
@@ -24,36 +24,36 @@ const Diff: React.FC<DiffProps> = ({ leftText, rightText,numberRows }) => {
         if (line1 !== line2) {
           res.push(
             <span key={i} className='bg-red-300'>
-              <span className=' select-none'>{i}.</span> {`${line1}\n`}
+              <span className=' select-none'>{i + 1}. </span> {` ${line1}`}
             </span>
           );
           res2.push(
             <span key={i} className='bg-green-300'>
-              <span className=' select-none'>{i}.</span> {`${line2}\n`}
+              <span className=' select-none'>{i + 1}. </span> {` ${line2}`}
             </span>
           );
         } else {
           res.push(
             <span key={i}>
-              <span className=' select-none'>{i}.</span> {`${line1}\n`}
+              <span className=' select-none'>{i + 1}. </span> {` ${line1}`}
             </span>
           );
           res2.push(
             <span key={i}>
-              <span className=' select-none'>{i}.</span> {`${line2}\n`}
+              <span className=' select-none'>{i + 1}. </span> {` ${line2}`}
             </span>
           );
         }
       } else if (lines1.length > i) {
         res.push(
-          <span key={i} className=' bg-green-300'>
-            <span className=' select-none'>{i}.</span> {`${line1}\n`}
+          <span key={i} className=''>
+            <span className=' select-none'>{i + 1}. </span> {` ${line1}`}
           </span>
         );
       } else {
         res2.push(
           <span key={i} className='bg-green-300'>
-            <span className=' select-none'>{i}.</span> {`${line2}\n`}
+            <span className=' select-none'>{i + 1}. </span> {` ${line2}`}
           </span>
         );
       }
@@ -70,7 +70,7 @@ const Diff: React.FC<DiffProps> = ({ leftText, rightText,numberRows }) => {
   };
 
   return (
-    <div className='flex flex-col mx-5'>
+    <div className='flex h-1/2 flex-col'>
       <div className='text-center'>
         <button
           className='bg-white border-solid border-[1.8px] border-gray-200 rounded-md px-5 py-1 hover:bg-gray-200'
@@ -79,14 +79,16 @@ const Diff: React.FC<DiffProps> = ({ leftText, rightText,numberRows }) => {
           Compare
         </button>
       </div>
-      <div className='flex flex-row '>
-        <div className='w-1/2 h-full mx-5 my-5 border-solid border-2 bg-gray-300 border-gray-500 shadow-md rounded-lg overflow-hidden flex flex-col text-left'>
-          {diff(leftLines, rightLines)[0]}
+      {(leftLines.length > 1 || rightLines.length > 1) && (
+        <div className='flex h-[90%]  flex-row '>
+          <div className='w-1/2  overflow-y-auto ml-5 my-5 border-solid border-2 bg-gray-300 border-gray-500 shadow-md rounded-lg  flex flex-col text-left'>
+            {diff(leftLines, rightLines)[0]}
+          </div>
+          <div className='w-1/2 overflow-y-auto mr-5 my-5 border-solid border-2 bg-gray-300 border-gray-500 shadow-md rounded-lg flex flex-col text-left'>
+            {diff(leftLines, rightLines)[1]}
+          </div>
         </div>
-        <div className='w-1/2 h-1/4 mx-5 my-5 border-solid border-2 bg-gray-300 border-gray-500 shadow-md rounded-lg overflow-hidden flex flex-col text-left'>
-          {diff(leftLines, rightLines)[1]}
-        </div>
-      </div>
+      )}
     </div>
   );
 };

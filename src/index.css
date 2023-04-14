@@ -1,7 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-* { border: 1px solid black; }
-span{
- min-height: 26px;
+span {
+  min-height: 26px;
+}
+/* #line-numbers pre {
+  counter-increment: linenumber;
+} */
+#line-numbers pre::before {
+  counter-increment: linenumber;
+  /* content: counter(linenumber); */
+  display: block;
+  color: #506882;
 }
